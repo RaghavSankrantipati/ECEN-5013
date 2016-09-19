@@ -6,10 +6,10 @@
 include source.mk
 
 INCLUDE= ./Header
-SOURCE = data.c datamain.c 
-PRE = data.i datamain.i
-ASM = data.s datamain.s
-OBJ = data.o datamain.o
+SOURCE = main.c project1.c memory.c   
+PRE = main.i project1.i memory.i  
+ASM = main.s project1.s memory.s  
+OBJ = main.o project1.o memory.o 
 CC= gcc
 CFLAG= -Wall -g -O0
 COPY = scp
@@ -34,14 +34,16 @@ OBJECT:$(OBJ)
 compile:$(OBJ)
 	$(CC) $(CFLAG) -I $(INCLUDE) -c $< 
 Build:$(OBJ)
-	$(CC) $(CFLAG) $(OBJ) -o datafinal
-	size -A datafinal
+	$(CC) $(CFLAG) $(OBJ) -o final
+	size -A final
 	objdump -a $(OBJ)
 Build-lib: $(SOURCE)
 	ar rU libproject1.a ./Source/*.c
 	ranlib libproject1.a
 	tar -cvf libproject1.tar ./Source/*.c   
-UPLOAD: datafinal
-	scp datafinal $(BB8)
+UPLOAD: final
+	scp final $(BB8)
 clear:
-	rm -rf *.i *.s *.o datafinal
+	rm -rf *.i *.s *.o final
+
+
