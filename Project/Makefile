@@ -10,7 +10,7 @@ SOURCE = main.c project1.c memory.c #all the sources required are given
 PRE = main.i project1.i memory.i  #all the preprocessed outputs
 ASM = main.s project1.s memory.s  #all the assembly outputs
 OBJ = main.o project1.o memory.o #all the object files
-CC= gcc #host compiler
+CC= gcc -std=c99 #host compiler
 CFLAG= -Wall -g -O0 #error flags
 COPY = scp #for uploading to Beaglebone
 BB8 = root@192.168.7.2:Project1 #the ip address of Beaglebone
