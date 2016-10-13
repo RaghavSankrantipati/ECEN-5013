@@ -1,4 +1,16 @@
+/*
+ * uart.c
 
+ *
+ *  Created on: Oct 8, 2016
+ *      Author: Divya Sampath
+ */
+/*
+ * uart.c
+ *
+ *  Created on: Oct 7, 2016
+ *      Author: sahan
+ */
 #include "MKL25Z4.h"
 //#include "core_cm4.h"
 #include "core_cmFunc.h"

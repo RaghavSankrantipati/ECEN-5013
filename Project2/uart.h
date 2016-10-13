@@ -1,8 +1,8 @@
 /*
  * uart.h
  *
- *  Created on: Oct 11, 2016
- *      Author: raghav
+ *  Created on: Oct 8, 2016
+ *      Author: Divya Sampath
  */
 
 #ifndef SOURCES_UART_H_

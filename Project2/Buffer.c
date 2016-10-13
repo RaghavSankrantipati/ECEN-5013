@@ -1,12 +1,4 @@
-/*
- * Buffer.c
-
- *
- *  Created on: Oct 11, 2016
- *      Author: raghav
- */
 #include"Buffer.h"
-#include "log.h"
 #include<stdlib.h>
 
 //uint8_t length=4;
@@ -17,8 +9,6 @@ uint8_t add_data(structure *s,uint8_t Value,uint8_t length)
 if(Buffer_Full(s,length))
 {
 //printf("Buffer is full");
-	char s[]="Buffer is full";
-	log(s,strlen(s));
 return -1;
 }
 else
@@ -53,8 +43,6 @@ uint8_t remove_data(structure *s)
 if(Buffer_Empty(s))
 {
 //printf("Buffer is Empty");
-	char s[]="Buffer is Empty";
-	log(s,strlen(s));
 return -1;
 }
 else
@@ -69,8 +57,6 @@ uint8_t get_data(structure *s)
 if(Buffer_Empty(s))
 {
 //printf("Buffer is Empty");
-	char s[]="Buffer is Empty";
-	log(s,strlen(s));
 return -1;
 }
 else
@@ -84,14 +70,13 @@ s->HEAD++;
 void Buffer_init()
 {
 	d = (char *) malloc(15);
+	s=(char*) malloc(15);
 	return d;
 }
 void release(char *s)
 {
 	free(s);
 }
-
-
 
 
 

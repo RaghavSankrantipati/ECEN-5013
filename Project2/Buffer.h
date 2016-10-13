@@ -1,9 +1,3 @@
-/*
- * Buffer.h
- *
- *  Created on: Oct 11, 2016
- *      Author: raghav
- */
 
 #ifndef SOURCES_BUFFER_H_
 #define SOURCES_BUFFER_H_
@@ -16,6 +10,7 @@ uint8_t* TAIL;
 uint8_t* Buffer;
 }structure;
 char *d;
+char *s;
 enum BUFFER_STATE {BUFFER_FULL,BUFFER_EMPTY};
 //uint8_t length=4;
 uint8_t add_data(structure *s,uint8_t Value,uint8_t length);

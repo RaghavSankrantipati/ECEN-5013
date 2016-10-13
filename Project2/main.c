@@ -27,62 +27,67 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#include"Buffer.h"
+#include "uart.h"
+#include <string.h>
 #include "MKL25Z4.h"
-#include<stdio.h>
-#include<stdint.h>
-#include<string.h>
-#include "Buffer.h"
-#include "log.h"
-char Data[]="this is log";
-int main()
-{
-int j=0;
-uint8_t result1,result2;
+//char t[]="I am Mounika";
 structure a;
-a.Buffer=Data;
-a.HEAD=Data;
-a.TAIL=Data;
-//while(1)
-//{
-for(int i=0;i<strlen(Data);i++)
+structure b;
+int i=0;
+int len=15;
+int main(void)
 {
-result1=add_data(&a,*(Data+i),strlen(Data));
-if(result1==0)
+	Buffer_init();
+a.Buffer=d;
+a.HEAD=d;
+a.TAIL=d;
+b.Buffer=s;
+b.HEAD=s;
+b.TAIL=s;
+uart0_init (SystemCoreClock,38400);
+}
+void UART0_IRQHandler()
+		{
+
+			while(i<len){
+				while(!(UART0_S1 & UART_S1_RDRF_MASK));
+					*(d+i)=UART0_D;
+					for(int j=500;j>0;j--);
+					while(!(UART0_S1 & UART_S1_TDRE_MASK));
+					add_data(&a,*(d+i),len);
+					add_data(&b,*(s+i),len);
+				UART0_D=get_data(&a);
+				i++;
+                 }
+			__disable_irq();
+			release(d);
+			release(s);
+		}
+/*
+void LOG(structure *s,int l)
 {
-//printf("Added Succesfully");
-	char s[]="Added Succesfully";
-log(s,strlen(s));
+	structure a;
+			a.Buffer=t;
+			a.HEAD=t;
+			a.TAIL=t;
+
+	uart_transmit(&a,l);
 }
-else if(result1==-1)
+void uart_transmit(structure *a,int l)
 {
-//printf("Buffer full");
-	char s[]="Buffer is full";
-	log(s,strlen(s));
-//a.HEAD=Data;
-//a.TAIL=Data;
-}
-}
-for(int i=0;i<strlen(Data);i++)
+	uart0_init(SystemCoreClock,38400);
+while(i<l)
 {
-result2=remove_data(&a);
-if(result2==0)
+	while((add_data(&a,*(t+i),l)));
+if ((UART0_S1 & UART_S1_TDRE_MASK))
 {
-	char s[]="Removed Succesfully";
-	log(s,strlen(s));
-//printf("Removed Succesfully");
+        UART0_D = get_data(&a);
+        if(Buffer_Empty(&a))
+        UART0->C2 &= ~UART_C2_TIE_MASK;//disable the transmit interrupt
+        for(int k=0;k<700;k++);
 }
-else if(result2==-1)
-{
-	char s[]="Buffer empty";
-	log(s,strlen(s));
-	//printf("Buffer empty");
-a.HEAD=Data;
-a.TAIL=Data;
+i++;
 }
-}
-}
-//}
-////////////////////////////////////////////////////////////////////////////////
-// EOF
-////////////////////////////////////////////////////////////////////////////////
+}*/
+//////////////////////////////////////////////////
