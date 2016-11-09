@@ -38,10 +38,15 @@ void TPM2_Setup();
 int stop();
 void dma_init();
 uint32_t length=5000;
-uint8_t s[1000];
-uint8_t d[1000];
+uint8_t s[5000];
+uint8_t d[5000];
 int main(void)
 {
+/*
+	for(int i=0;i<length;i++)
+	{
+		s[i]=0;
+	}*/
 	dma_init();
 	start();
 	DMA_DCR0|=DMA_DCR_START_MASK;
@@ -61,8 +66,8 @@ void dma_init()
 	DMA0->DMA[0].SAR=(uint32_t) s;//source address
 	DMA0->DMA[0].DAR=(uint32_t) d;//destination address
 	//DMA0->DMA[0].DCR=DMA_DCR_EINT_MASK|DMA_DCR_AA_MASK|DMA_DCR_SSIZE(0x00)|DMA_DCR_DSIZE(0x00)|DMA_DCR_START_MASK;
-	//DMA0->DMA[0].DCR=DMA_DCR_EINT_MASK|DMA_DCR_AA_MASK|DMA_DCR_SSIZE(0x01)|DMA_DCR_DSIZE(0x01);//(for 8-bit)
-	DMA0->DMA[0].DCR=DMA_DCR_EINT_MASK|DMA_DCR_AA_MASK|DMA_DCR_SSIZE(0x00)|DMA_DCR_DSIZE(0x00);
+	DMA0->DMA[0].DCR=DMA_DCR_EINT_MASK|DMA_DCR_AA_MASK|DMA_DCR_SSIZE(0x01)|DMA_DCR_DSIZE(0x01);//(for 8-bit)
+	//DMA0->DMA[0].DCR=DMA_DCR_EINT_MASK|DMA_DCR_AA_MASK|DMA_DCR_SSIZE(0x00)|DMA_DCR_DSIZE(0x00);//(for 32-bit)
 	/*enable interrupt on the completion
 	 * Auto-align
 	 * Source size 32-bit
@@ -80,15 +85,18 @@ void dma_init()
 void DMA0_IRQHandler()
 {
 	int time1=stop();
-	char str[]="DMA time for zero 1000 8-bit in us:";
+	char str[]="DMA time for moving 10 using 8-bit in us:";
+	//char str[]="DMA time for zero 10 using 8-bit in us:";
 	int l=strlen(str);
 	LOG1(str,l,time1,8);
 	start();
-	memmove(s,d,1000);
-	int time2=stop();
-	char str1[]="Inbuilt time for zero 1000 in us:";
-		int l1=strlen(str1);
-		LOG1(str1,l1,time2,8);
+			memmove(s,d,5000);
+			//memset(s,0,5000);
+			int time2=stop();
+			char str1[]="Inbuilt time for moving 10 in us:";
+			//char str1[]="Inbuilt time for zero 10 in us:";
+				int l1=strlen(str1);
+				LOG1(str1,l1,time2,8);
 	__disable_irq();
 }
 void TPM2_Setup()
