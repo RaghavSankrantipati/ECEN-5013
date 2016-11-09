@@ -26,7 +26,7 @@ uint16_t checksum;   // Error detection checksum
 
 void Decode_Msg(CI_Msg *s);
 uint16_t cal_check();
-CI_Msg *Color;
-
-
+CI_Msg z;
+//CI_Msg* Color;
+//Color=&z;
 #endif /* SOURCES_MESSAGE_H_ */

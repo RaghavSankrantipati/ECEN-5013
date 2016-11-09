@@ -15,22 +15,23 @@ void UART0_IRQHandler(){
 	   //time_t start_t, end_t;
 	  // double diff_t;
 	while(!(UART0_S1 & UART_S1_RDRF_MASK));
-	Color->command=UART0_D;
+	z.command=UART0_D;
+	//z.command=UART0_D;
 	while(!(UART0_S1 & UART_S1_RDRF_MASK));
-		Color->length=UART0_D;
+		z.length=UART0_D;
 	    //len=Color.length;
-		for(int l=0;l<(Color->length-0X30);l++)
+		for(int l=0;l<(z.length-0X30);l++)
 		{
 		while(!(UART0_S1 & UART_S1_RDRF_MASK));
-				Color->data[l]=UART0_D;
+				z.data[l]=UART0_D;
 		          }
 				while(!(UART0_S1 & UART_S1_RDRF_MASK));
-								Color->checksum=UART0_D;
+							z.checksum=UART0_D;
 							result=validate_checksum();
 	if(result==0)
-		{
-		Decode_Msg(Color);
-		}
+		//{
+		Decode_Msg(&z);
+		//}
 	__disable_irq();
 	}//putchar(s);//d = UART0_D ;
 void uart0_init (int sysclk, int baud)
@@ -76,12 +77,12 @@ void uart0_init (int sysclk, int baud)
      }
 int validate_checksum()
 {
-	uint16_t c= Color->command^Color->length;
-	for(int i=0;i<(Color->length-30);i++)
+	uint16_t c= z.command^z.length;
+	for(int i=0;i<(z.length-30);i++)
 	{
-		c=c^Color->data[i];
+		c=c^z.data[i];
 	}
-	if(Color->checksum==c)
+	if(z.checksum==c)
 		return 0;
 	else
 		return 1;

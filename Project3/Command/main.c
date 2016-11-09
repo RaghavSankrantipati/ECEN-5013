@@ -27,22 +27,26 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "led.h"
+//#include "led.h"
 #include "MKL25Z4.h"
 #include "Message.h"
 #include "uart.h"
-//void message_tx(void);
+#include <string.h>
+#include "log.h"
+void message_tx(void);
+void TPM3_Setup();
+void start();
 int main(void)
 {
     /* Write your code here */
 	uart0_init(SystemCoreClock,38400);
-	//start();
-//message_tx();
+	start();
+message_tx();
     /* Never leave main */
     return 0;
 }
-/*
- * void TPM2_Setup()
+
+ void TPM3_Setup()
 {
 	SIM_BASE_PTR->SCGC6 |= SIM_SCGC6_TPM2_MASK;
 	SIM_BASE_PTR->SOPT2 |= SIM_SOPT2_TPMSRC(1);
@@ -54,7 +58,7 @@ int main(void)
 
 void start()
 {
-	TPM2_Setup();
+	TPM3_Setup();
 }
 int stop()
 {
@@ -63,19 +67,18 @@ int stop()
 	int x=count/21;
 	return x;
 }
- */
-/*
- * void message_tx(void)
+
+void message_tx(void)
 {
 	CI_Msg Blue;
-Blue.command=LED_BLUE;
+Blue.command=LED_CONFIG;
 Blue.length=3;
 Blue.data[0]='r';
 Blue.data[1]='e';
 Blue.data[2]='d';
 Blue.checksum=Blue.command^Blue.length^Blue.data[0]^Blue.data[1]^Blue.data[2];
 //Blue.checksum=cal_check();
-	while(!(UART0->S1 & UART_S1_TDRE_MASK) && !(UART0->S1 &UART_S1_TC_MASK));
+	//while(!(UART0->S1 & UART_S1_TDRE_MASK) && !(UART0->S1 &UART_S1_TC_MASK));
 	UART0_D=Blue.command;
 	while(!(UART0->S1 & UART_S1_TDRE_MASK) && !(UART0->S1 &UART_S1_TC_MASK));
 		UART0_D=Blue.length;
@@ -90,5 +93,5 @@ Blue.checksum=Blue.command^Blue.length^Blue.data[0]^Blue.data[1]^Blue.data[2];
 	char str[]="Time taken for transmitting a message in us:";
 	int l=strlen(str);
 	LOG1(str,l,time1,8);
-}*/
+}
 
