@@ -51,18 +51,17 @@ uint16_t dig_P1;
  int16_t dig_P7;
  int16_t dig_P8;
  int16_t dig_P9;
-
-
-
-
-
-
+/*settup BME I2C configuration**/
 void BME_Configuration();
+/** calibrated data**/
 void read_trimmed_data();
+/** for reading data without calibaration*/
 void read_rawdata();
+/* calibration of sensor**/
 int sensor_calibration();
 signed long int calibration_T(signed long int adc_T);
 unsigned long int calibration_P(signed long int adc_P);
+/** activation pressure sensor*/
 void pressure_main();
 
 
